@@ -2,8 +2,8 @@ name: Sync Fork with Upstream
 
 on:
   schedule:
-    - cron: '* * * * *'  # Runs every minute 
-  workflow_dispatch:  # Allows manual triggering
+    - cron: '* * * * *'  # Runs every hour
+  workflow_dispatch:
 
 jobs:
   sync:
@@ -15,10 +15,10 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - name: Configure Git
+      - name: Configure Git Identity
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "rancoor"
+          git config --global user.email "cheruiyotca@gmail.com"
 
       - name: Add Upstream and Fetch
         run: |
@@ -28,8 +28,8 @@ jobs:
       - name: Merge Changes
         run: |
           git checkout main
-          git merge upstream/main --ff-only || git merge upstream/main --no-edit
-          
+          git merge --no-ff upstream/main --no-edit || git rebase upstream/main
+
       - name: Push to Fork
         uses: ad-m/github-push-action@master
         with:
