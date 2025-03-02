@@ -1,0 +1,25 @@
+{
+  "name": "dash",
+  "version": "1.0.0",
+  "description": "One stop shop for all tools",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rancoor/dash.git"
+  },
+  "keywords": [
+    "tools",
+    "dashboard",
+    "automation"
+  ],
+  "author": "Amos Cheruiyot",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rancoor/dash/issues"
+  },
+  "homepage": "https://github.com/rancoor/dash#readme"
+}
