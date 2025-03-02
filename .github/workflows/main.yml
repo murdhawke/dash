@@ -1,24 +1,37 @@
-name: Sync Fork
+name: Sync Fork with Upstream
 
 on:
   schedule:
-    - cron: '* * * * *'  
-  workflow_dispatch:
+    - cron: '* * * * *'  # Runs every minute 
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Forked Repo
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false
           fetch-depth: 0
 
-      - name: Add Upstream and Sync
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add Upstream and Fetch
         run: |
           git remote add upstream https://github.com/rancoor/dash.git || true
           git fetch upstream
+
+      - name: Merge Changes
+        run: |
           git checkout main
           git merge upstream/main --ff-only || git merge upstream/main --no-edit
-          git push origin main
+          
+      - name: Push to Fork
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
